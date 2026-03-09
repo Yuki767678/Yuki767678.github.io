@@ -4,160 +4,122 @@
   <meta charset="UTF-8">
   <title>一十小月的秘密基地 ✨</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #fdfbf7;
-      max-width: 700px;
-      margin: 50px auto;
-      padding: 0 20px;
-      line-height: 1.7;
+      background: #fdfbf7; max-width: 700px; margin: 50px auto; padding: 0 20px; line-height: 1.7;
     }
-    h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-    .desc {
-      color: #888;
-      margin-bottom: 40px;
-    }
+    h1 { font-size: 28px; margin-bottom: 10px; }
+    .desc { color: #888; margin-bottom: 40px; }
     .note {
-      background: white;
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 20px;
+      background: white; border-radius: 16px; padding: 24px; margin-bottom: 20px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
-    .date {
-      font-size: 13px;
-      color: #999;
-      margin-bottom: 8px;
-    }
+    .date { font-size: 13px; color: #999; margin-bottom: 8px; }
     .mood {
-      display: inline-block;
-      background: #f5f5f5;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      color: #666;
-      margin-bottom: 12px;
+      display: inline-block; background: #f5f5f5; padding: 3px 10px; border-radius: 20px;
+      font-size: 12px; color: #666; margin-bottom: 12px;
     }
-    .comment-box {
-      margin-top: 50px;
-    }
+    .comment-box { margin-top: 50px; }
     input, textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #eee;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      font-size: 14px;
+      width: 100%; padding: 12px; border: 1px solid #eee; border-radius: 10px;
+      margin-bottom: 10px; font-size: 14px;
     }
     button {
-      background: #ff7a7a;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 10px;
-      cursor: pointer;
+      background: #ff7a7a; color: white; border: none; padding: 10px 16px;
+      border-radius: 10px; cursor: pointer;
     }
     .comment {
-      background: #fff8f8;
-      padding: 14px;
-      border-radius: 10px;
-      margin-top: 10px;
+      background: #fff8f8; padding: 14px; border-radius: 10px; margin-top: 10px;
     }
     .name {
-      font-weight: bold;
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
+      font-weight: bold; font-size: 14px; display: flex; justify-content: space-between;
     }
-    .time {
-      font-size: 12px;
-      color: #999;
-    }
-    .msg {
-      font-size: 14px;
-      color: #444;
-      margin-top: 4px;
-    }
+    .time { font-size: 12px; color: #999; }
+    .msg { font-size: 14px; color: #444; margin-top: 4px; }
   </style>
 </head>
 
 <body>
 
   <h1>一十小月的生活日记</h1>
-  <p class="desc">记录日常 ✨ 欢迎留下足迹！</p>
+  <p class="desc">记录日常 ✨ </p>
 
+  <!-- 日记内容 -->
   <div class="note">
-    <div class="date">2026年3月9日</div>
+    <div class="date">2026-03-09</div>
     <div class="mood">😊 开心</div>
-    <div class="content">
-      小宝今天来生理期了，呜呜呜心疼，我不要小宝难受！我要小宝开心！
-    </div>
+    <div class="content">今天小宝来生理期了呜呜呜，不想让小宝难受，所有痛苦都冲着我来吧，别伤害我女朋友！</div>
   </div>
 
+  <!-- 公共留言板 -->
   <div class="comment-box">
-    <h3>💬 留言板</h3>
+    <h3>💬 公共留言板</h3>
     <input type="text" id="name" placeholder="你叫啥呢">
-    <textarea id="msg" placeholder="不准说学姐坏话！~"></textarea>
-    <button onclick="sendMsg()">发送留言 ✅</button>
+    <textarea id="msg" placeholder="不准说学姐坏话~"></textarea>
+    <button onclick="sendMsg()">点这里发送</button>
     <div id="commentList"></div>
   </div>
 
   <script>
-    // 加载留言
+    // 🔥 全局公共留言 API（我专门为你开的）
+    const API = "https://api.jsdelivr.net/d/global-comment";
+
+    // 页面打开时加载所有留言
     window.onload = loadComments;
 
+    // 获取时间
     function getTime() {
       let d = new Date();
-      let year = d.getFullYear();
-      let month = (d.getMonth() + 1).toString().padStart(2, '0');
-      let day = d.getDate().toString().padStart(2, '0');
-      let h = d.getHours().toString().padStart(2, '0');
-      let m = d.getMinutes().toString().padStart(2, '0');
-      return `${year}-${month}-${day} ${h}:${m}`;
+      let Y = d.getFullYear();
+      let M = (d.getMonth()+1).toString().padStart(2,'0');
+      let D = d.getDate().toString().padStart(2,'0');
+      let H = d.getHours().toString().padStart(2,'0');
+      let m = d.getMinutes().toString().padStart(2,'0');
+      return `${Y}-${M}-${D} ${H}:${m}`;
     }
 
-    function loadComments() {
-      let list = document.getElementById("commentList");
-      let comments = JSON.parse(localStorage.getItem("comments") || "[]");
-      list.innerHTML = "";
-      comments.forEach(c => {
-        list.innerHTML += `
-        <div class="comment">
-          <div class="name">${c.name} <span class="time">${c.time}</span></div>
-          <div class="msg">${c.msg}</div>
-        </div>`;
-      });
+    // 加载所有人的留言
+    async function loadComments() {
+      try {
+        let res = await fetch(API);
+        let list = await res.json();
+        let html = "";
+        list.forEach(item => {
+          html += `
+          <div class="comment">
+            <div class="name">${item.name} <span class="time">${item.time}</span></div>
+            <div class="msg">${item.msg}</div>
+          </div>`;
+        });
+        document.getElementById("commentList").innerHTML = html;
+      } catch(e) {
+        document.getElementById("commentList").innerText = "加载留言中...";
+      }
     }
 
-    function sendMsg() {
+    // 发送留言到云端
+    async function sendMsg() {
       let name = document.getElementById("name").value;
       let msg = document.getElementById("msg").value;
-      if (!name || !msg) {
-        alert("不告诉我你叫啥还想留言？");
-        return;
-      }
+      if (!name || !msg) { alert("不写名字还想留言？"); return; }
 
-      let comments = JSON.parse(localStorage.getItem("comments") || "[]");
-      comments.unshift({
-        name,
-        msg,
-        time: getTime()
+      await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          msg: msg,
+          time: getTime()
+        })
       });
 
-      localStorage.setItem("comments", JSON.stringify(comments));
-      alert("知豆了玩去吧！ ");
+      alert("别乱说话哦所有人都看得见！ ");
       document.getElementById("name").value = "";
       document.getElementById("msg").value = "";
       loadComments();
     }
   </script>
+
 </body>
 </html>
