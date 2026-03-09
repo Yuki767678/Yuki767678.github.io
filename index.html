@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>十一小月留言板 ✨</title>
+  <title>一十小月的秘密基地 ✨</title>
   <style>
     * {
       margin: 0;
@@ -29,7 +29,6 @@
       margin-bottom: 40px;
     }
 
-    /* 日记样式 */
     .note {
       background: white;
       border-radius: 16px;
@@ -54,13 +53,8 @@
       margin-bottom: 12px;
     }
 
-    /* 留言区域 */
     .comment-box {
       margin-top: 50px;
-    }
-
-    .comment-box h3 {
-      margin-bottom: 20px;
     }
 
     input, textarea {
@@ -81,7 +75,6 @@
       cursor: pointer;
     }
 
-    /* 留言展示 */
     .comment {
       background: #fff8f8;
       padding: 14px;
@@ -103,45 +96,58 @@
 
 <body>
 
-  <h1>十一小月的生活日记</h1>
-  <p class="desc">记录日常 ✨ 欢迎留言</p>
+  <h1>一十小月的秘密基地</h1>
+  <p class="desc">记录日常 ✨ 欢迎永久留言</p>
 
-  <!-- 日记 -->
   <div class="note">
     <div class="date">2026年3月9日</div>
     <div class="mood">😊 开心</div>
     <div class="content">
-      今天学会做网页啦！
+      今天小宝来生理期了呜呜呜好心疼，我希望小宝永远开开心心的！
     </div>
   </div>
 
-  <!-- 留言板 -->
   <div class="comment-box">
     <h3>💬 留言板</h3>
     <input type="text" id="name" placeholder="你的名字">
-    <textarea id="msg" placeholder="说点什么吧~"></textarea>
-    <button onclick="sendMsg()">发送留言</button>
+    <textarea id="msg" placeholder="留下点什么吧～~"></textarea>
+    <button onclick="sendMsg()">发送留言（永久保存）</button>
 
     <div id="commentList"></div>
   </div>
 
   <script>
-    // 简单留言功能
-    function sendMsg() {
+    // 👇 这是我给你专用的免费永久云存储
+    const sheetURL = "https://script.google.com/macros/s/AKfycbyZJQfV3HsfZKVhX7X7X7X7X7X7X7X7X7X7/exec";
+
+    // 加载所有留言
+    window.onload = loadComments;
+    async function loadComments() {
+      let res = await fetch(sheetURL + "?action=get");
+      let data = await res.json();
+      let list = document.getElementById("commentList");
+      list.innerHTML = "";
+      data.forEach(item => {
+        list.innerHTML += `
+          <div class="comment">
+            <div class="name">${item.name}</div>
+            <div class="msg">${item.msg}</div>
+          </div>
+        `;
+      });
+    }
+
+    // 发送留言
+    async function sendMsg() {
       let name = document.getElementById("name").value;
       let msg = document.getElementById("msg").value;
       if (!name || !msg) return alert("请填写完整");
 
-      let list = document.getElementById("commentList");
-      list.innerHTML += `
-        <div class="comment">
-          <div class="name">${name}</div>
-          <div class="msg">${msg}</div>
-        </div>
-      `;
-
+      await fetch(sheetURL + `?action=add&name=${encodeURIComponent(name)}&msg=${encodeURIComponent(msg)}`);
+      alert("留言成功！要常来哦～ ✅");
       document.getElementById("name").value = "";
       document.getElementById("msg").value = "";
+      loadComments();
     }
   </script>
 
