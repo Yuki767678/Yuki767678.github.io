@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>一十小月的秘密基地 ✨</title>
+  <title>我的生活日记 ✨</title>
   <style>
     * {
       margin: 0;
@@ -96,21 +96,21 @@
 
 <body>
 
-  <h1>一十小月的秘密基地</h1>
+  <h1>我的生活日记</h1>
   <p class="desc">记录日常 ✨ 欢迎永久留言</p>
 
   <div class="note">
     <div class="date">2026年3月9日</div>
     <div class="mood">😊 开心</div>
     <div class="content">
-      今天小宝来生理期了呜呜呜好心疼，我希望小宝永远开开心心的！
+      今天学会做网页啦！
     </div>
   </div>
 
   <div class="comment-box">
-    <h3>💬 留言板</h3>
+    <h3>💬 永久留言板</h3>
     <input type="text" id="name" placeholder="你的名字">
-    <textarea id="msg" placeholder="留下点什么吧～~"></textarea>
+    <textarea id="msg" placeholder="说点什么吧~"></textarea>
     <button onclick="sendMsg()">发送留言（永久保存）</button>
 
     <div id="commentList"></div>
@@ -144,7 +144,7 @@
       if (!name || !msg) return alert("请填写完整");
 
       await fetch(sheetURL + `?action=add&name=${encodeURIComponent(name)}&msg=${encodeURIComponent(msg)}`);
-      alert("留言成功！要常来哦～ ✅");
+      alert("留言成功！永久保存啦 ✅");
       document.getElementById("name").value = "";
       document.getElementById("msg").value = "";
       loadComments();
